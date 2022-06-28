@@ -1,5 +1,4 @@
 import numpy as np
-from IPython import embed
 
 import pinocchio as se3
 import ospi.utils as utils

@@ -28,8 +28,7 @@ filename_mot = "subject01_walk1_ik.mot"
 wb = wr.Wrapper(path+filename_model, mesh_path, name='whole-body_model') 
 
 # call the gepetto viewer server
-gvs = subprocess.Popen('/home/florian/miniconda3/envs/stage_v1/bin/gepetto-gui', shell=True )
-#gvs = subprocess.Popen('gepetto-gui', shell=True ) # if gepetto-gui is installed in a conda env replace by '/home/$USER_NAME$/miniconda3/envs/$ENV_NAME$/bin/gepetto-gui'
+gvs = subprocess.Popen('gepetto-gui', shell=True ) # if gepetto-gui is installed in a conda env replace by '/home/$USER_NAME$/miniconda3/envs/$ENV_NAME$/bin/gepetto-gui'
 print('Loading the viewer ...')
 time.sleep(4)
 

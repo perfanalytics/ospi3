@@ -9,8 +9,6 @@ import os
 import xml.etree.ElementTree as xml
 import numpy as np
 import pinocchio as se3
-from IPython import embed
-
 
 def _readSto(filename, verbose=False):
     """This parser can be used with osim motion or force files 

@@ -5,8 +5,7 @@ import pandas as pd
 import pinocchio as se3
 import os
 from pinocchio.utils import zero, se3ToXYZQUAT
-from pinocchio.utils import zero as mat_zeros
-from IPython import embed
+from pinocchio.utils import zero as mat_zeros   
 ENABLE_VIEWER = "ON"
 
 class Viewer(object):
@@ -251,8 +250,7 @@ class Viewer(object):
             for i in range(1, robot.model.nbodies):
                 node_name = 'world/'+robot.name+'/'+robot.model.names[i]+'_frame'
                 self.viewer.gui.deleteNode(node_name, False)
-            
-        #embed()
+         
     def displayLowerJointLimits(self, robotName, ff=False):
         pass
         #viewer.display(self.robot.model.lowerPositionLimit, robotName)

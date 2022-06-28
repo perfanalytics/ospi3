@@ -22,16 +22,15 @@ Loading OpenSim3.3 '.osim' model in Pinocchio as well as .trc and . mot file.
 - Python 3. Additional libraries are directly handled by setup.py (numpy, math and elementtree,...)
 - Pinocchio: library for rigid multi-body dynamics. Github: http://stack-of-tasks.github.io/pinocchio/ 
 
-<p align="center">
-<strong> conda install pinocchio -c conda-forge </strong>
-</p>
+```json
+   $ conda install pinocchio -c conda-forge
+```
 
 - Gepetto-viewer: A graphical interface for pinocchio. Github: https://github.com/humanoid-path-planner/gepetto-viewer.git
 
-<p align="center">
-<strong>conda install gepetto-viewer gepetto-viewer-corba -c conda-forge </strong>
-</p>
-
+```json
+   $ conda install gepetto-viewer gepetto-viewer-corba -c conda-forge
+```
 
 ## Installation
 ```json

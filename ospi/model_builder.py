@@ -2,7 +2,7 @@ import numpy as np
 from IPython import embed
 
 import pinocchio as se3
-import utils
+import ospi.utils as utils
 
 
 class MS:
@@ -13,6 +13,7 @@ class MS:
         self.visuals = []
         self.visuals.append([0, 'ground', 'none'])
         self.forces = []
+        self.markers = [] # [ [marker_name, parent_body, location [X,Y,Z]] for marker in marker_set ] 
         self.joint_transformations = []
         self.name = name
         #self.FrameType = se3.FrameType.OP_FRAME
@@ -55,3 +56,14 @@ class MS:
 
     def createJointTransformations(self, joint_transformations):
         self.joint_transformations = joint_transformations
+
+    def createMarkerSet(self, marker_set):
+        self.markers = marker_set # [marker_name, parent_body, location [X,Y,Z] for marker in marker_set]
+        #creating frames
+        for marker in marker_set:
+            marker_name, parent_body, location = marker # marker_name, parent_body, location [X,Y,Z]
+            parent_frame_id = self.model.getFrameId(parent_body)
+            parent_joint_id = self.model.frames[parent_frame_id].parent
+            M = se3.SE3.Identity()
+            M.translation = np.array(location)
+            self.model.addFrame(se3.Frame("marker_"+marker_name,parent_joint_id, parent_frame_id, M,se3.OP_FRAME))

@@ -1,25 +1,26 @@
-import model_parser as mdp
-import motion_parser as mtp
+import ospi.model_parser as mdp
+import ospi.motion_parser as mtp
 import pinocchio as se3
 import numpy as np
 import time
 import os
 from pinocchio.utils import zero, se3ToXYZQUAT
-from bmtools.algebra import quaternion_from_matrix, euler_matrix
-from bmtools.filters import *
+from ospi.algebra import quaternion_from_matrix, euler_matrix
+from ospi.filters import *
 
 class Wrapper():
-    def __init__(self, filename, mesh_path, name='the_model_wrapper'):
+    def __init__(self, filename, mesh_path, markerSet_path = None, name='the_model_wrapper'):
         self.name = name
-        ms_system = mdp.parseModel(filename, mesh_path)
+        ms_system = mdp.parseModel(filename, mesh_path, markerSet_path)
         self.model = ms_system.model
         self.data = ms_system.data
         self.visuals = ms_system.visuals
         self.forces = ms_system.forces
+        self.markers = ms_system.markers # [[marker_name, parent_body, location [X,Y,Z]] for marker in marker_set] 
         self.joint_transformations = ms_system.joint_transformations
         self.v0 = zero(self.model.nv) #TODO get from model
         self.q0 = zero(self.model.nq) #TODO get from model
-        self.q = self.q0
+        self.q = self.q0.copy()
         self.dq = zero(self.model.nv)
         self.ddq = zero(self.model.nv)
 
@@ -264,7 +265,7 @@ class Wrapper():
         idx = self.model.getJointId('hip_r')
         idx = self.model.joints[idx].idx_q
         M = se3.SE3.Identity()
-        M.rotation = rotate('x', 0.2) * rotate('y', -0.05)
+        M.rotation = rotate('x', 0.2) @ rotate('y', -0.05)
         Mquat = se3ToXYZQUAT(M)
         q[idx] = Mquat[3]
         q[idx+1] = Mquat[4]
@@ -273,7 +274,7 @@ class Wrapper():
         idx = self.model.getJointId('hip_l')
         idx = self.model.joints[idx].idx_q
         M = se3.SE3.Identity()
-        M.rotation = rotate('x', 0.2) * rotate('y', 0.05)
+        M.rotation = rotate('x', 0.2) @ rotate('y', 0.05)
         Mquat = se3ToXYZQUAT(M)
         q[idx] = Mquat[3]
         q[idx+1] = Mquat[4]
@@ -320,7 +321,7 @@ class Wrapper():
         idx = self.model.getJointId('acromial_r')
         idx = self.model.joints[idx].idx_q
         M = se3.SE3.Identity()
-        M.rotation = rotate('x', -0.2)*rotate('y',-0.18)
+        M.rotation = rotate('x', -0.2)@rotate('y',-0.18)
         Mquat = se3ToXYZQUAT(M)
         q[idx] = Mquat[3]
         q[idx+1] = Mquat[4]
@@ -329,7 +330,7 @@ class Wrapper():
         idx = self.model.getJointId('acromial_l')
         idx = self.model.joints[idx].idx_q
         M = se3.SE3.Identity()
-        M.rotation = rotate('x', -0.2)*rotate('y',0.18)
+        M.rotation = rotate('x', -0.2)@rotate('y',0.18)
         Mquat = se3ToXYZQUAT(M)
         q[idx] = Mquat[3]
         q[idx+1] = Mquat[4]
@@ -380,14 +381,14 @@ class Wrapper():
             CoM.translation = pose
             self.display.viewer.gui.addXYZaxis('world/sphere', [0., 1., 0., .5], 0.03, 0.3)
             self.display.place("world/sphere", CoM, True)
-        elif segment is 'All':
+        elif segment == 'All':
             self.com(q)
             for i in range(0,len(self.data.com)):
                 if i == 0:
                     pose = self.data.com[i]
                     CoM = se3.SE3.Identity()
                     CoM.translation = pose
-                    #CoM = self.data.oMi[i]*CoM
+                    #CoM = self.data.oMi[i]@CoM
                     self.display.viewer.gui.addXYZaxis('world/CoM', [0., 0., 1., .8], 0.03, 0.2)
                     self.display.place('world/CoM', CoM, True)
                 else:
@@ -395,12 +396,12 @@ class Wrapper():
                     pose = self.model.inertias[i].lever
                     CoM = se3.SE3.Identity()
                     CoM.translation = pose                     
-                    CoM = self.data.oMi[i]*CoM
+                    CoM = self.data.oMi[i]@CoM
                     self.display.viewer.gui.addXYZaxis('world/'+visualName+'CoM', [0., 1., 0., .5], 0.02, 0.1)
                     self.display.place('world/'+visualName+'CoM', CoM, True)
                 
         else:
-            print 'each segment'
+            print('each segment')
 
 
     def t_poseDisplay(self):
@@ -540,7 +541,7 @@ class Wrapper():
     def rotateFFJ(self, q, axis, angle, idx):
         v = zero(self.model.nv)
         M = se3.SE3.Identity()
-        #M.rotation = self.data.oMi[idx].rotation * rotate(axis, angle)
+        M.rotation = self.data.oMi[idx].rotation @ rotate(axis, angle)
         M.rotation = rotate(axis, angle)
         Mquat = se3ToXYZQUAT(M)
         for dof in range (idx, idx+7):
@@ -550,7 +551,7 @@ class Wrapper():
     def rotateSPHJ(self, q, axis, angle, idx):
         v = zero(self.model.nv)
         M = se3.SE3.Identity()
-        #M.rotation = self.data.oMi[idx].rotation * rotate(axis, angle)
+        #M.rotation = self.data.oMi[idx].rotation @ rotate(axis, angle)
         M.rotation = rotate(axis, angle)
         Mquat = se3ToXYZQUAT(M)
         for dof in range (idx, idx+4):
@@ -559,10 +560,10 @@ class Wrapper():
 
     def rotateREVJ(self, q, axis, angle, idx):
             #M = se3.SE3.Identity()
-            #M.rotation = self.data.oMi[idx].rotation * rotate(axis, angle)
+            #M.rotation = self.data.oMi[idx].rotation @ rotate(axis, angle)
             #Mquat = se3ToXYZQUAT(M)
         v = zero(self.model.nv)
         q[idx]=angle
         self.play(q,v)
-            
         
+    

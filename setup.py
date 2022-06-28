@@ -12,11 +12,11 @@ setup(
     author='Galo MALDONADO',
     author_email='galo.maldonado@laas.fr',
     license='LGPL',
-    install_requires=['numpy'],
+    install_requires=['numpy','pandas','scipy'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.9',
     ],
 )

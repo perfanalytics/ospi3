@@ -42,7 +42,7 @@ Loading OpenSim3.3 ".osim" model in Pinocchio as well as ".trc" and ". mot" file
    cd */ospi3
    python Exemple_OSPI.py
 ```
-It possible that, if gepetto-gui is installed in a conda environnement, you must indicate the gepetto-gui full path in l.31 of Example_OSPI.py. It must be something like '/home/\$USER\_NAME\$/miniconda3/envs/\$ENV\_NAME\$/bin/gepetto-gui' (with adequate \$USER\_NAME\$ and \$ENV\_NAME\$)
+It possible that, if gepetto-gui is installed in a conda environnement, you must indicate the gepetto-gui full path in l.31 of Example_OSPI.py. It must be something like '/home/myUserName/miniconda3/envs/myEnvName/bin/gepetto-gui' (with adequate myUserName and myEnvName)
 
 - For accessing the ospi package from anywhere : 
 

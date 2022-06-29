@@ -1,4 +1,7 @@
 # ospi 3
+
+<meta name="google-site-verification" content="bibv6WlUzVwJzbNt49zr7LblO53bMws4A6wY9TC1POY" />
+
 This library contains scripts for working with OpenSim files and pinocchio software. 
 
 Loading OpenSim3.3 ".osim" model in Pinocchio as well as ".trc" and ". mot" file.
@@ -47,3 +50,4 @@ It possible that, if gepetto-gui is installed in a conda environnement, you must
 - For accessing the ospi package from anywhere : 
 
 Copy-paste the 'ospi' folder in your package folder, for e.g '/home/miniconda3/envs/myenvname/lib/python3.9/site-packages/'
+

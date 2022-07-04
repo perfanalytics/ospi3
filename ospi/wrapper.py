@@ -19,10 +19,13 @@ class Wrapper():
         self.markers = ms_system.markers # [[marker_name, parent_body, location [X,Y,Z]] for marker in marker_set] 
         self.joint_transformations = ms_system.joint_transformations
         self.v0 = zero(self.model.nv) #TODO get from model
-        self.q0 = zero(self.model.nq) #TODO get from model
-        self.q = self.q0.copy()
+        self.q = self.q0
         self.dq = zero(self.model.nv)
         self.ddq = zero(self.model.nv)
+
+    @property
+    def q0(self):
+        return zero(self.model.nq)
 
     @property
     def nq(self):

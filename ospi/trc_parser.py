@@ -29,16 +29,14 @@ def read_trc(trc_path_in, filter, rotate_axis = False):
         column_names = trc_df.columns
         for i in range(len(L_marker_name)):
             trc_df.rename(columns={f"Y{i+1}":f"Z{i+1}",f"Z{i+1}":f"Y{i+1}"},inplace=True)
-            trc_df[f"Y{i+1}"]=-trc_df[f"Y{i+1}"]
             trc_df.rename(columns={f"X{i+1}":f"Y{i+1}",f"Y{i+1}":f"X{i+1}"},inplace=True)
-            trc_df[f"X{i+1}"]=-trc_df[f"X{i+1}"]
         trc_df = trc_df[column_names] #reordering columns
     
     #filtering data TODO
     if filter:
         for coor in trc_df.columns:
-            trc_df[coor]=butterworth_filter_1d(list(trc_df[coor]))
-            #trc_df[coor]=simple_filter(list(trc_df[coor]))
+            #trc_df[coor]=butterworth_filter_1d(list(trc_df[coor]))
+            trc_df[coor]=simple_filter(list(trc_df[coor]))
 
     #aggregate data by marker
     trc_df_agg = pd.DataFrame(columns=L_marker_name,index=trc_df.index) 

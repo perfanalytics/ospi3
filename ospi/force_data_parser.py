@@ -31,9 +31,7 @@ def load_force_data(force_data_path, L_forces, rotate_axis = False):
         for force in (L_forces):
             for id in [force.force_identifier,force.torque_identifier,force.point_identifier]:
                 force_df.rename(columns={f"{id}y":f"{id}z",f"{id}z":f"{id}y"},inplace=True)
-                force_df[f"{id}y"]=-force_df[f"{id}y"]
                 force_df.rename(columns={f"{id}x":f"{id}y",f"{id}y":f"{id}x"},inplace=True)
-                force_df[f"{id}x"]=-force_df[f"{id}x"]
         force_df = force_df[column_names] #reordering columns
 
     for force in L_forces:

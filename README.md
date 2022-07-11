@@ -7,9 +7,9 @@ Loading OpenSim3.3 ".osim" model in Pinocchio as well as ".trc" and ". mot" file
 
 ## Contributors
 
-Lionel Reveret (lionel.reveret@inria.fr), contact
+Lionel Reveret (INRIA, Grenoble), contact
 
-Florian Schneider (florian.schneider@polytechnique.edu)
+Florian Schneider (Ecole Polytechnique, Paris-Saclay)
 
 
 ## Modifications from original package OSPI: 

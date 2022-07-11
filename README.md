@@ -4,9 +4,13 @@ This library contains scripts for working with OpenSim files and pinocchio softw
 
 Loading OpenSim3.3 ".osim" model in Pinocchio as well as ".trc" and ". mot" file.
 
+
 ## Contributors
+
 Lionel Reveret (lionel.reveret@inria.fr), contact
+
 Florian Schneider (florian.schneider@polytechnique.edu)
+
 
 ## Modifications from original package OSPI: 
 - compatibily with python3

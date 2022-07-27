@@ -16,7 +16,7 @@ Florian Schneider (Ecole Polytechnique, Palaiseau, France)
 - compatibily with python3
 - fix knee-joint spline parsing
 - add missing meshes (convert OpenSim .vtp in .obj thanks to vtp2obj.py code)
-- add parsing of MarketSet included in .cosim or in external .xml file. The markerset is included in the model wrapper.
+- add parsing of MarketSet included in .osim or in external .xml file. The markerset is included in the model wrapper.
 - add parsing and visualisation of .trc file with Mocap data 
 - add parsing and visualisation of ground force file 
 
